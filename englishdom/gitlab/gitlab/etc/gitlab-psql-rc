@@ -1,0 +1,3 @@
+psql_user='gitlab-psql'
+psql_host='/var/opt/gitlab/postgresql'
+psql_port='5432'

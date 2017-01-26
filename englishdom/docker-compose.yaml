@@ -1,0 +1,67 @@
+version: '2'
+
+services:
+  redis_git:
+    image: redis:3.0-alpine
+    container_name: redis-git
+    hostname: redis-git
+    network_mode: "host"
+    command:
+    - --maxmemory 256mb
+    - --maxmemory-policy volatile-lru 
+    - --bind 0.0.0.0
+
+  postgresql:
+    image: postgres:9.6.1-alpine
+    network_mode: "host"
+    container_name: postgres-git
+    environment:
+    - POSTGRES_USER=gitlab
+    - POSTGRES_PASSWORD=Pa$sgit1324
+    - POSTGRES_DB=gitlab
+
+  gitlab:
+    image: gitlab/gitlab-ce:8.16.2-ce.0
+    container_name: gitlab
+    privileged: true
+    depends_on:
+    - redis_git
+    - postgresql
+    network_mode: "host"
+    volumes:
+    - ./gitlab/gitlab/etc/:/opt/gitlab/etc/
+    - ./registry:/registry
+    - ./certs:/certs
+  registry-clients:
+    image: registry:2
+    network_mode: "host"
+    container_name: registry-clients
+    privileged: true
+    depends_on:
+    - redis_git
+    - postgresql
+    - gitlab
+    volumes:
+        - ./registry:/registry
+        - ./certs:/certs
+        - ./auth/htpasswd:/auth/htpasswd
+        - ./registry/config-client.yml:/etc/docker/registry/config.yml
+  registry:
+    image: registry:2
+    network_mode: "host"
+    container_name: registry
+    privileged: true
+    depends_on:
+    - redis_git
+    - postgresql
+    - gitlab
+    - registry-clients
+    volumes:
+        - ./registry:/registry
+        - ./certs:/certs
+        - ./auth/htpasswd:/auth/htpasswd
+        - ./registry/config.yml:/etc/docker/registry/config.yml
+
+
+
+

@@ -1,0 +1,25 @@
+version: 0.1
+http:
+  addr: 0.0.0.0:5000
+  secret: secret
+  debug:
+    addr: 0.0.0.0:5001
+log:
+  level: info
+storage:
+  filesystem:
+    rootdirectory: /registry
+  delete:
+    enabled: true
+auth:
+  token:
+#    realm: http://172.16.26.51:5001/auth
+    realm: token  
+    service: container_registry
+    issuer: gitlab-issuer
+    rootcertbundle: /certs/registry-auth.crt
+#auth:
+#  htpasswd:
+#    realm: basic
+#    path: /auth/htpasswd
+
