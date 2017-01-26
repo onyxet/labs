@@ -1,0 +1,21 @@
+version: '2'
+services:
+    image: 127.0.0.1:5002:$CI_BUILD_REF_NAME
+    container_name: development_app
+    hostname: development_app
+    ports:
+    - '80:8086'
+    environment:
+    - UWSGI_PHP-SAPI-NAME=apache
+    - UWSGI_HTTP=:8086
+    - UWSGI_HTTP_MODIFIER1=14
+    - UWSGI_LISTEN=50
+    - UWSGI_MASTER-FIFO=/tmp/fifo0
+    - UWSGI_HTTP-TIMEOUT=90
+    - UWSGI_HTTP-CONNECT-TIMEOUT=5
+    - UWSGI_MASTER=TRUE
+    - UWSGI_PROJECT_ROOT_DIR=/opt
+    - UWSGI_CHDIR=/opt
+    - UWSGI_WORKERS=4
+    - UWSGI_OFFLOAD_THREADS=8
+    - UWSGI_VACUUM=true

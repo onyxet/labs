@@ -1,0 +1,24 @@
+image: 127.0.0.1:5002/root/php:7.1
+services:
+- php
+stages:
+- build
+- test
+- deploy
+build_image:
+  when: always
+  script:
+    - docker build --rm -t 127.0.0.1:5002/root/php:$CI_BUILD_REF_NAME .
+    - docker push 127.0.0.1:5002/root/php:$CI_BUILD_REF_NAME
+test:
+  when: always
+  stage: test
+  script:
+    - docker pull 127.0.0.1:5002/root/php:$CI_BUILD_REF_NAME
+    - docker-compose up -d
+    - ./test.sh
+deploy:
+  when: on_success
+  stage: deploy
+  script:
+    - ./deploy
