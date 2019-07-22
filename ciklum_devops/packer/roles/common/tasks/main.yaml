@@ -1,0 +1,59 @@
+---
+
+# # Install general packages
+# - name: Install basic packages
+#   yum:
+#     name: "{{ item }}"
+#   loop:
+#      - iptables
+#      - openssh-server
+#      - openssh-clients
+#   become: yes
+#   become_user: root
+
+
+# # Allow 22 port in iptables
+# - name: Allow port 22
+#   iptables:
+#     chain: INPUT
+#     protocol: tcp
+#     destination_port: "22"
+#     jump: ACCEPT
+#     action: insert
+#     rule_num: 5
+#   become: yes
+
+# # Enable demons
+# - name: Enable Services
+#   service:
+#     name: "{{ item }}"
+#     use: service
+#     enabled: yes
+#   loop:
+#      - iptables
+#      - sshd
+#   become: yes
+
+# Download GOSS
+- name: Download GOSS
+  get_url:
+    url: "https://github.com/aelsabbahy/goss/releases/download/v0.3.7/goss-linux-amd64"
+    dest: "/bin/goss"
+    mode: 755
+  become: yes
+
+
+# GOSS tests template
+- name: GOSS tests
+  template:
+    src: templates/goss.yaml.j2
+    dest: /opt/goss.yaml
+  become: yes
+
+# TEST Sample project
+- name: GOSS Validate
+  command: goss validate
+  args:
+    chdir: /opt/
+  become: yes
+

@@ -1,0 +1,12 @@
+{
+    "ami_id": "ami-e3fdd999",
+    "region": "us-east-1",
+    "instance_type": "t2.medium",
+    "project_name": "sample-project",
+    "ssh_username": "centos",
+    "vpc_id": "vpc-038b71d3519d074f5",
+    "security_group_ids": "sg-02fc92e519aa0881b",
+    "subnet_id": "subnet-028f25d9ecd6979c7",
+    "ssh_keypair_name": "sample_project",
+    "ssh_private_key_file": "~/.ssh/id_rsa"
+}

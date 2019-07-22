@@ -1,0 +1,35 @@
+{
+    "variables": {
+      "aws_access_key":  "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key":  "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    },
+    "builders": [
+      {
+        "name":            "{{user `project_name`}}",
+        "type":            "amazon-ebs",
+        "access_key":      "{{user `aws_access_key`}}",
+        "secret_key":      "{{user `aws_secret_key`}}",
+        "region":          "{{user `region`}}",
+        "vpc_id":          "{{user `vpc_id`}}",
+        "security_group_ids": "{{user `security_group_ids`}}",
+        "ssh_keypair_name": "{{user `ssh_keypair_name`}}",
+        "ssh_private_key_file": "{{user `ssh_private_key_file`}}",
+        "subnet_id":       "{{user `subnet_id`}}",
+        "source_ami":      "{{user `ami_id`}}",
+        "instance_type":   "{{user `instance_type`}}",
+        "ssh_username":    "{{user `ssh_username`}}",
+        "ssh_timeout":     "5m",
+        "ami_name":        "{{user `project_name`}}-{{timestamp}}",
+        "ami_description": "{{user `project_name`}} AMI",
+        "run_tags":        { "ami-create": "{{user `project_name`}}" },
+        "tags":            { "ami": "{{user `project_name`}}" },  
+        "associate_public_ip_address": false
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "ansible",
+        "playbook_file": "./play.yaml"
+      }
+    ]
+}

@@ -1,0 +1,14 @@
+package:
+  iptables:
+    installed: true
+port:
+  tcp:22:
+    listening: true
+    ip: []
+service:
+  iptables:
+    enabled: true
+    running: true
+  sshd:
+    enabled: true
+    running: true
