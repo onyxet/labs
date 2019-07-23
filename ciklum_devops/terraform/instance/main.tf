@@ -11,7 +11,7 @@ resource "aws_elb" "this" {
   name       = "${var.project_name}"
   subnets    = ["${data.terraform_remote_state.global.public_subnets}"]
   depends_on = ["aws_instance.this"]
-
+  security_groups = ["${data.terraform_remote_state.global.ssh_sg}"]
   listener {
     instance_port     = 22
     instance_protocol = "tcp"
