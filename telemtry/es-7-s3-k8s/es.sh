@@ -17,7 +17,7 @@ echo "Install Kibana"
 helm install --name kibana elastic/kibana --version 7.3.0 --namespace telemetry
 
 echo "Install logstash"
-helm install --name logstash stable/logstash --version 2.2.0 -f logstash-values.yaml
+helm upgrade --install logstash stable/logstash -f logstash-values.yaml --namespace telemetry
 
 echo "Wait until logstash becomes available"
 sleep 50
